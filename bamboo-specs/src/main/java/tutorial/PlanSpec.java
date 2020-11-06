@@ -1,7 +1,6 @@
 import com.atlassian.bamboo.specs.api.BambooSpec;
 import com.atlassian.bamboo.specs.api.builders.BambooKey;
 import com.atlassian.bamboo.specs.api.builders.BambooOid;
-import com.atlassian.bamboo.specs.api.builders.notification.Notification;
 import com.atlassian.bamboo.specs.api.builders.permission.PermissionType;
 import com.atlassian.bamboo.specs.api.builders.permission.Permissions;
 import com.atlassian.bamboo.specs.api.builders.permission.PlanPermissions;
@@ -13,14 +12,7 @@ import com.atlassian.bamboo.specs.api.builders.plan.branches.BranchCleanup;
 import com.atlassian.bamboo.specs.api.builders.plan.branches.PlanBranchManagement;
 import com.atlassian.bamboo.specs.api.builders.plan.configuration.ConcurrentBuilds;
 import com.atlassian.bamboo.specs.api.builders.project.Project;
-import com.atlassian.bamboo.specs.builders.notification.PlanFailedNotification;
-import com.atlassian.bamboo.specs.builders.notification.ResponsibleRecipient;
-import com.atlassian.bamboo.specs.builders.notification.WatchersRecipient;
-import com.atlassian.bamboo.specs.builders.task.CheckoutItem;
 import com.atlassian.bamboo.specs.builders.task.ScriptTask;
-import com.atlassian.bamboo.specs.builders.task.VcsCheckoutTask;
-import com.atlassian.bamboo.specs.builders.trigger.RepositoryPollingTrigger;
-import com.atlassian.bamboo.specs.model.task.ScriptTaskProperties;
 import com.atlassian.bamboo.specs.util.BambooServer;
 
 @BambooSpec
@@ -28,42 +20,30 @@ public class PlanSpec {
     
     public Plan plan() {
         final Plan plan = new Plan(new Project()
-                .oid(new BambooOid("o8et7z0jo1dt"))
+                .oid(new BambooOid("o8et7z0jo26a"))
                 .key(new BambooKey("PRJ"))
-                .name("Rum JSPECS")
-                .description("Bamboo Java specs"),
-            "Dragon Slayer Quest",
-            new BambooKey("SLAYER"))
-            .oid(new BambooOid("o8540dnbu9s3"))
+                .name("Project Name"),
+            "Plan Name",
+            new BambooKey("PLANKEY"))
+            .oid(new BambooOid("o8540dnbu9s5"))
+            .description("Plan created from (enter repository url of your plan)")
             .pluginConfigurations(new ConcurrentBuilds())
             .stages(new Stage("Stage 1")
-                    .jobs(new Job("Job 1",
-                            new BambooKey("JOB1"))
-                            .tasks(new VcsCheckoutTask()
-                                    .checkoutItems(new CheckoutItem().defaultRepository()),
-                                new ScriptTask()
-                                    .interpreter(ScriptTaskProperties.Interpreter.BINSH_OR_CMDEXE)
-                                    .inlineBody("${bamboo_capability_system_builder_mvn3_Maven_3}/bin/mvn clean test"))))
-            .linkedRepositories("Demo JSPECS")
-            
-            .triggers(new RepositoryPollingTrigger())
+                    .jobs(new Job("Build and Run",
+                            new BambooKey("RUN"))
+                            .tasks(new ScriptTask()
+                                    .inlineBody("echo here we go again"))))
             .planBranchManagement(new PlanBranchManagement()
-                    .createForVcsBranch()
-                    .delete(new BranchCleanup()
-                        .whenRemovedFromRepositoryAfterDays(1)
-                        .whenInactiveInRepositoryAfterDays(30))
-                    .notificationLikeParentPlan())
-            .notifications(new Notification()
-                    .type(new PlanFailedNotification())
-                    .recipients(new ResponsibleRecipient(),
-                        new WatchersRecipient()))
+                    .delete(new BranchCleanup()))
             .forceStopHungBuilds();
         return plan;
     }
     
     public PlanPermissions planPermission() {
-        final PlanPermissions planPermission = new PlanPermissions(new PlanIdentifier("PRJ", "SLAYER"))
+        final PlanPermissions planPermission = new PlanPermissions(new PlanIdentifier("PRJ", "PLANKEY"))
             .permissions(new Permissions()
+                    .userPermissions("admin", PermissionType.EDIT, PermissionType.VIEW, PermissionType.ADMIN, PermissionType.CLONE, PermissionType.BUILD)
+                    .groupPermissions("bamboo-admin", PermissionType.ADMIN, PermissionType.BUILD, PermissionType.CLONE, PermissionType.VIEW, PermissionType.EDIT)
                     .loggedInUserPermissions(PermissionType.VIEW)
                     .anonymousUserPermissionView());
         return planPermission;
