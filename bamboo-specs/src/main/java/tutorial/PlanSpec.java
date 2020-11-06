@@ -44,7 +44,7 @@ public class PlanSpec {
                                 new ScriptTask()
                                     .interpreter(ScriptTaskProperties.Interpreter.BINSH_OR_CMDEXE)
                                     .inlineBody("${bamboo_capability_system_builder_mvn3_Maven_3}/bin/mvn clean test"))))
-            .linkedRepositories("Accounting")
+            .linkedRepositories("Demo")
             
             .triggers(new RepositoryPollingTrigger())
             .planBranchManagement(new PlanBranchManagement()
