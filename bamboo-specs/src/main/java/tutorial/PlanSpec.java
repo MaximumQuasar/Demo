@@ -44,7 +44,7 @@ public class PlanSpec {
                                 new ScriptTask()
                                     .interpreter(ScriptTaskProperties.Interpreter.BINSH_OR_CMDEXE)
                                     .inlineBody("${bamboo_capability_system_builder_mvn3_Maven_3}/bin/mvn clean test"))))
-            .linkedRepositories("Demo")
+            .linkedRepositories("Demo JSPECS")
             
             .triggers(new RepositoryPollingTrigger())
             .planBranchManagement(new PlanBranchManagement()
@@ -62,7 +62,7 @@ public class PlanSpec {
     }
     
     public PlanPermissions planPermission() {
-        final PlanPermissions planPermission = new PlanPermissions(new PlanIdentifier("AC", "SLAYER"))
+        final PlanPermissions planPermission = new PlanPermissions(new PlanIdentifier("PRJ", "SLAYER"))
             .permissions(new Permissions()
                     .loggedInUserPermissions(PermissionType.VIEW)
                     .anonymousUserPermissionView());
