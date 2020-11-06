@@ -29,9 +29,9 @@ public class PlanSpec {
     public Plan plan() {
         final Plan plan = new Plan(new Project()
                 .oid(new BambooOid("o8et7z0jo1dt"))
-                .key(new BambooKey("AC"))
-                .name("Accounting")
-                .description(".NET project accounting"),
+                .key(new BambooKey("PRJ"))
+                .name("Rum JSPECS")
+                .description("Bamboo Java s[ecs"),
             "Dragon Slayer Quest",
             new BambooKey("SLAYER"))
             .oid(new BambooOid("o8540dnbu9s3"))
