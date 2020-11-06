@@ -31,7 +31,7 @@ public class PlanSpec {
                 .oid(new BambooOid("o8et7z0jo1dt"))
                 .key(new BambooKey("PRJ"))
                 .name("Rum JSPECS")
-                .description("Bamboo Java s[ecs"),
+                .description("Bamboo Java specs"),
             "Dragon Slayer Quest",
             new BambooKey("SLAYER"))
             .oid(new BambooOid("o8540dnbu9s3"))
